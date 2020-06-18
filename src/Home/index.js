@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {debounce} from 'lodash';
 
 import {searchRepo} from '../api.js'
 import './style.scss';
@@ -17,7 +18,7 @@ class Home extends Component {
         }
 
         this.search = this.search.bind(this);
-        this.handleSearchInput = this.handleSearchInput.bind(this);
+        this.handleSearchInput = debounce(this.handleSearchInput.bind(this), 500);
     }
 
     componentDidMount() {
@@ -25,14 +26,15 @@ class Home extends Component {
     }
 
     search() {
+        console.log(this.state.term);
         // Promise.resolve(searchRepo(this.state.term, this.state.page))
         //     .then(
         //         val => this.setState({repos: val.items})
         //     );
     }
 
-    handleSearchInput(e) {
-        this.setState({term: e.target.value}, () => {
+    handleSearchInput(string) {
+        this.setState({term: string}, () => {
             this.search()
         })
     }
@@ -42,11 +44,14 @@ class Home extends Component {
 
         return (
             <div>
-                <input type="text" onChange={this.handleSearchInput}/>
+                <input type="text" onChange={(e) => {
+                    this.handleSearchInput(e.target.value)
+                }}/>
                 <ul>
-                    {repos.map((item, key) => {
-                        const {name, stargazers_count, updated_at, html_url} = item;
-                        return <li key={key}>{name}, {stargazers_count}, {updated_at}, {html_url}</li>
+                    {repos.map(({name, stargazers_count, updated_at, html_url}, key) => {
+                        return <li key={key}>
+
+                        </li>
                     })}
                 </ul>
             </div>
