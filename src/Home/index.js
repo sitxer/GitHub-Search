@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
-import {debounce} from 'lodash';
+import React, { Component } from 'react';
+import { debounce } from 'lodash';
 
-import {searchRepo} from '../api.js'
+import { searchRepo } from '../api.js';
 import './style.scss';
+import searchIcon from '../img/search.svg';
 
 // ** name, stargazers_count, updated_at, html_url ** //
+
+// ** {repos.map(({ name, stargazers_count, updated_at, html_url }, key) => {} )} ** //
 
 class Home extends Component {
 
@@ -15,18 +18,17 @@ class Home extends Component {
             repos: [],
             term: '',
             page: 1,
-        }
+        };
 
         this.search = this.search.bind(this);
         this.handleSearchInput = debounce(this.handleSearchInput.bind(this), 500);
     }
 
     componentDidMount() {
-        this.search()
+        this.search();
     }
 
     search() {
-        console.log(this.state.term);
         // Promise.resolve(searchRepo(this.state.term, this.state.page))
         //     .then(
         //         val => this.setState({repos: val.items})
@@ -34,25 +36,28 @@ class Home extends Component {
     }
 
     handleSearchInput(string) {
-        this.setState({term: string}, () => {
-            this.search()
-        })
+        this.setState({ term: string }, () => {
+            this.search();
+        });
     }
 
     render() {
-        const {term, repos} = this.state;
+        const { term, repos } = this.state;
 
         return (
-            <div>
-                <input type="text" onChange={(e) => {
-                    this.handleSearchInput(e.target.value)
-                }}/>
+            <div className={'Home'}>
+                <div className={'Home__search'}>
+                    <input type='text'
+                           className={'Home__search-input'}
+                           placeholder={'Search'}
+                           onChange={(e) => {
+                               this.handleSearchInput(e.target.value);
+                           }}
+                    /> <img className={'Home__search-icon'} src={searchIcon} alt="search"/>
+                </div>
                 <ul>
-                    {repos.map(({name, stargazers_count, updated_at, html_url}, key) => {
-                        return <li key={key}>
-
-                        </li>
-                    })}
+                    <li className={'Home__list-item'}>
+                    </li>
                 </ul>
             </div>
         );
