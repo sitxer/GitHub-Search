@@ -3,7 +3,6 @@ import axios from "axios";
 export function searchRepo(search, page) {
     if (search === '') {
         search = 'stars:>100'
-        page = 1
     }
     return axios.get('https://api.github.com/search/repositories', {
         params: {
