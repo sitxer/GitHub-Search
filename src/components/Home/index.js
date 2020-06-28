@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
 import moment from 'moment';
+import ReactPaginate from 'react-paginate';
 
 import { searchRepo } from '../../api.js';
 import './style.scss';
@@ -16,10 +17,13 @@ class Home extends Component {
             repos: [],
             term: '',
             page: 1,
+            pageCount: 1,
+            perPage: 10,
         };
 
         this.search = this.search.bind(this);
         this.handleSearchInput = debounce(this.handleSearchInput.bind(this), 500);
+        this.handlePageClick = this.handlePageClick.bind(this);
     }
 
     componentDidMount() {
@@ -27,9 +31,16 @@ class Home extends Component {
     }
 
     search() {
-        Promise.resolve(searchRepo(this.state.term, this.state.page))
+        Promise.resolve(searchRepo(this.state.term, this.state.page, this.state.perPage))
             .then(
-                val => this.setState({ repos: val.items }),
+                response => {
+                    const totalCount = response.total_count <= 1000 ? response.total_count : 1000;
+                    const pageCount = Math.ceil(totalCount / this.state.perPage);
+                    this.setState({
+                        repos: response.items,
+                        pageCount: pageCount,
+                    });
+                },
             );
     }
 
@@ -39,8 +50,14 @@ class Home extends Component {
         });
     }
 
+    handlePageClick(data) {
+        this.setState({ page: data.selected + 1 }, () => {
+            this.search();
+        });
+    }
+
     render() {
-        const { term, repos } = this.state;
+        const { term, repos, pageCount } = this.state;
 
         return (
             <div className={'Home'}>
@@ -57,7 +74,7 @@ class Home extends Component {
                 </div>
                 <ul className={'Home__list'}>
                     {repos.map(({ name, stargazers_count, updated_at, html_url }, key) => {
-                        const date = moment(updated_at).format('D MMM')
+                        const date = moment(updated_at).format('D MMM');
                         return (
                             <li className={'Home__list-item'} key={key}>
                                 <div className='Home__list-item-top'>
@@ -81,6 +98,19 @@ class Home extends Component {
                         );
                     })}
                 </ul>
+                <div className='Home__paginate-container'>
+                    <ReactPaginate
+                        pageCount={pageCount}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={'Home__paginate'}
+                        pageLinkClassName={'Home__paginate-item'}
+                        previousClassName={'Home__paginate-prev'}
+                        nextClassName={'Home__paginate-next'}
+                        breakClassName={'Home__paginate-item'}
+                        activeClassName={'Home__paginate-active'}
+                    />
+                </div>
+
             </div>
         );
     }

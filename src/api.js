@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function searchRepo(search, page) {
+export function searchRepo(search, page, perPage) {
     if (search === '') {
         search = 'stars:>100'
     }
@@ -8,7 +8,7 @@ export function searchRepo(search, page) {
         params: {
             q: search,
             sort: 'stars',
-            per_page: 10,
+            per_page: perPage,
             page: page,
         }
     }).then(res => res.data);
