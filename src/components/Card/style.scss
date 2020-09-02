@@ -1,0 +1,45 @@
+@import "../../styles/theme";
+
+.Card {
+    &__back-button {
+        background-color: $theme-color-4;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.7rem;
+        display: inline-block;
+        line-height: 1.2;
+
+        &:hover {
+            color: inherit;
+        }
+
+        &:active {
+            -webkit-transform: translateY(1px);
+            transform: translateY(1px);
+        }
+    }
+
+    &__wrapper {
+        background-color: $theme-color-4;
+        margin-top: 1rem;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        display: flex;
+    }
+
+    &__user {
+        display: flex;
+        flex-direction: column;
+        width: 15%;
+        flex-shrink: 0;
+
+        &-img {
+            border-radius: 50%;
+            width: 100%;
+        }
+    }
+
+    &__name {
+        font-size: 1.5rem;
+        font-weight: bolder;
+    }
+}

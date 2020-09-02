@@ -41,7 +41,7 @@
 
             border: none;
             border-radius: 0.5rem;
-            background-color: #fff;
+            background-color: $theme-color-4;
 
             &-top {
                 display: flex;
@@ -82,7 +82,7 @@
         padding: 0.5rem 1rem;
         margin: 1rem 0 0;
         list-style: none;
-        background-color: #fff;
+        background-color: $theme-color-4;
         border-radius: 0.5rem;
 
         &-item, &-prev, &-next {
@@ -112,7 +112,7 @@
         &-active {
             .Home__paginate-item {
                 background-color: $theme-color-2;
-                color: #fff;
+                color: $theme-color-4;
             }
         }
     }
