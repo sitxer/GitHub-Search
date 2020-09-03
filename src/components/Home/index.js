@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Link } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
 
-import { searchRepo } from '../../api.js'
+import { searchRepo } from '../../api'
 import './style.scss'
 import searchIcon from '../../img/search.svg'
 
@@ -26,7 +26,11 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.search()
+        const term = localStorage.getItem('term') || this.state.term
+        const page = localStorage.getItem('page') || this.state.page
+        this.setState({ term, page: +page }, () => {
+            this.search()
+        })
     }
 
     search() {
@@ -44,12 +48,14 @@ class Home extends Component {
 
     handleSearchInput(string) {
         this.setState({ term: string }, () => {
+            localStorage.setItem('term', this.state.term)
             this.search()
         })
     }
 
     handlePageClick(data) {
         this.setState({ page: data.selected + 1 }, () => {
+            localStorage.setItem('page', this.state.page)
             this.search()
         })
     }
@@ -118,6 +124,8 @@ class Home extends Component {
                     {pageCount > 1 && (
                         <ReactPaginate
                             pageCount={pageCount}
+                            initialPage={this.state.page - 1}
+                            disableInitialCallback
                             onPageChange={this.handlePageClick}
                             marginPagesDisplayed={2}
                             containerClassName="Home__paginate"
