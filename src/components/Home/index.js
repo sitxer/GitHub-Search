@@ -71,14 +71,15 @@ class Home extends Component {
                     <img className="Home__search-icon" src={searchIcon} alt="search" />
                 </div>
                 <ul className="Home__list">
-                    {repos.map(({ name, stargazers_count, updated_at, html_url }, key) => {
+                    {repos.map(({ name, stargazers_count, updated_at, html_url, owner }, key) => {
+                        const ownerName = owner.login
                         const date = moment(updated_at).format('D MMM')
                         return (
                             <li className="Home__list-item" key={key}>
                                 <div className="Home__list-item-top">
                                     <Link
                                         className="Home__list-name"
-                                        to={{ pathname: `/card/${name}` }}
+                                        to={{ pathname: `/card/${ownerName}/${name}` }}
                                     >
                                         {name}
                                     </Link>

@@ -29,17 +29,40 @@
     &__user {
         display: flex;
         flex-direction: column;
-        width: 15%;
+        width: 20%;
         flex-shrink: 0;
+        justify-content: center;
 
         &-img {
             border-radius: 50%;
             width: 100%;
+        }
+
+        &-name {
+            margin: 1rem auto auto;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
     }
 
     &__name {
         font-size: 1.5rem;
         font-weight: bolder;
+        margin: 0;
+    }
+
+    &__info {
+        margin-left: 1rem;
+
+        &-section {
+            margin: 0.7rem 0 0;
+        }
+
+        &-date {
+            margin-left: 1rem;
+        }
     }
 }

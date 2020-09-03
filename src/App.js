@@ -13,7 +13,7 @@ function App() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/card/:name">
+                <Route path="/card/:ownerName/:name">
                     <Card />
                 </Route>
             </Switch>
