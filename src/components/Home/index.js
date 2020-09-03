@@ -20,8 +20,8 @@ class Home extends Component {
             perPage: 10,
         }
 
-        this.search = this.search.bind(this)
-        this.handleSearchInput = debounce(this.handleSearchInput.bind(this), 500)
+        this.search = debounce(this.search.bind(this), 500)
+        this.handleSearchInput = this.handleSearchInput.bind(this)
         this.handlePageClick = this.handlePageClick.bind(this)
     }
 
@@ -48,7 +48,7 @@ class Home extends Component {
 
     handleSearchInput(string) {
         this.setState({ term: string }, () => {
-            localStorage.setItem('term', this.state.term)
+            localStorage.setItem('term', string)
             this.search()
         })
     }
@@ -61,7 +61,7 @@ class Home extends Component {
     }
 
     render() {
-        const { term, repos, pageCount } = this.state
+        const { term, repos, pageCount, page } = this.state
 
         return (
             <div className="Home">
@@ -70,6 +70,7 @@ class Home extends Component {
                         type="text"
                         className="Home__search-input"
                         placeholder="Search"
+                        value={term}
                         onChange={(e) => {
                             this.handleSearchInput(e.target.value)
                         }}
@@ -124,7 +125,7 @@ class Home extends Component {
                     {pageCount > 1 && (
                         <ReactPaginate
                             pageCount={pageCount}
-                            initialPage={this.state.page - 1}
+                            initialPage={page - 1}
                             disableInitialCallback
                             onPageChange={this.handlePageClick}
                             marginPagesDisplayed={2}
